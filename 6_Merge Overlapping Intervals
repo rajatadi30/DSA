@@ -1,0 +1,110 @@
+A O(n Log n) and O(1) Extra Space Solution
+The above solution requires O(n) extra space for stack. We can avoid use of extra space by doing merge operations in-place. Below are detailed steps.
+1) Sort all intervals in decreasing order of start time.
+2) Traverse sorted intervals starting from first interval, 
+   do following for every interval.
+      a) If current interval is not first interval and it 
+         overlaps with previous interval, then merge it with
+         previous interval. Keep doing it while the interval
+         overlaps with the previous one.         
+      b) Else add current interval to output list of intervals.
+Note that if intervals are sorted by decreasing order of start times, we can quickly check if intervals overlap or not by comparing start time of 
+previous interval with end time of current interval.
+
+My Code:
+#include<bits/stdc++.h>
+using namespace std;
+struct ab
+{
+    int start;
+    int end;
+};
+bool compare(ab c,ab d)
+{
+    return c.start<d.start;
+}
+int main() 
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n;
+	    cin>>n;
+	    int index=0;
+	    struct ab arr[n];
+	    for(int i=0;i<n;i++)
+	    {
+	        cin>>arr[i].start;
+	        cin>>arr[i].end;
+	    }
+	    sort(arr,arr+n,compare);
+	    for(int i=1;i<n;i++)
+	    {
+	        if(arr[index].end>=arr[i].start)
+	        {
+	            arr[index].end=max(arr[i].end,arr[index].end);
+	            arr[index].start=min(arr[i].start,arr[index].start);
+	        }
+	        else
+	        {
+	            index++;
+	            arr[index]=arr[i];
+	        }
+	        
+	    }
+	    for(int i=0;i<=index;i++)
+	    {
+	        cout<<arr[i].start<<" ";
+	        cout<<arr[i].end<<" ";
+	    }
+	    cout<<endl;
+	}
+	return 0;
+}
+Time Complexity: O(n Log n) and O(1) Extra Space 
+I/P:-Interval arr[] = { {6,8}, {1,9}, {2,4}, {4,7} }; 
+O/P:-[1,9]
+
+//Other Code
+// An Interval  
+struct Interval  
+{  
+    int s, e;  
+};  
+  
+// Function used in sort  
+bool mycomp(Interval a, Interval b)  
+{ return a.s < b.s; }  
+  
+void mergeIntervals(Interval arr[], int n)  
+{  
+    // Sort Intervals in increasing order of 
+    // start time 
+    sort(arr, arr+n, mycomp);  
+  
+    int index = 0; // Stores index of last element in output array (modified arr[])  
+  
+    // Traverse all input Intervals  
+    for (int i=1; i<n; i++)  
+    {  
+        // If this is not first Interval and overlaps  
+        // with the previous one  
+        if (arr[index].e >=  arr[i].s)  
+        {  
+               // Merge previous and current Intervals  
+            arr[index].e = max(arr[index].e, arr[i].e);  
+            arr[index].s = min(arr[index].s, arr[i].s);  
+        }  
+        else 
+	{ 
+            arr[index] = arr[i];  
+            index++; 
+        }     
+    }  
+  
+    // Now arr[0..index-1] stores the merged Intervals  
+    cout << "\n The Merged Intervals are: ";  
+    for (int i = 0; i <= index; i++)  
+        cout << "[" << arr[i].s << ", " << arr[i].e << "] ";  
+} 
