@@ -1,0 +1,60 @@
+Above function can be optimized to O(logn) by calculating power(x, y/2) only once and storing it.
+float power(float x, int y)  
+{  
+    float temp;  
+    if(y == 0)  
+        return 1;  
+    temp = power(x, y / 2);  
+    if (y % 2 == 0)  
+        return temp * temp;  
+    else
+    {  
+        if(y > 0)  
+            return x * temp * temp;  
+        else
+            return (temp * temp) / x;      //for negative y
+    }  
+}  
+int main()  
+{  
+    float x = 2;  
+    int y = -3;  
+    cout << power(x, y);  
+    return 0;  
+}  
+O/P:0.125000
+
+My Code for pow(n,r) where r is reverse of integer n.
+#include<bits/stdc++.h>
+#define mod 1000000007
+using namespace std;
+int power(long long int x,long long int y)
+{
+    if(y==0)
+    return 1;
+    long long int temp=power(x,y/2);
+    if(y%2==0)
+        return ((temp%mod)*(temp%mod))%mod;
+    else
+        return (x*(((temp%mod)*(temp%mod))%mod))%mod;
+}
+
+int main()
+ {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+        long long int n,n1;
+        cin>>n;
+        n1=n;
+        long long int r=0;
+        while (n1 > 0) 
+        { 
+            r=r*10+n1%10; 
+            n1=n1/10; 
+        } 
+        cout<<power(n,r)<<endl;
+	}
+	return 0;
+}
