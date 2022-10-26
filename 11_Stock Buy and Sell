@@ -1,0 +1,95 @@
+Following is algorithm for this problem.
+1.Find the local minima and store it as starting index. If not exists, return.
+2.Find the local maxima. and store it as ending index. If we reach the end, set the end as ending index.
+3.Update the solution (Increment count of buy sell pairs)
+4.Repeat the above steps if end is not reached.
+
+// C++ Program to find best buying and selling days 
+#include <bits/stdc++.h> 
+using namespace std; 
+  
+// This function finds the buy sell schedule for maximum profit 
+void stockBuySell(int price[], int n) 
+{ // Prices must be given for at least two days 
+    if (n == 1) 
+        return; 
+    // Traverse through given price array 
+    int i = 0; 
+    while (i < n - 1) 
+    {   // Find Local Minima 
+        // Note that the limit is (n-2) as we are comparing present element to the next element 
+        while ((i < n - 1) && (price[i + 1] <= price[i])) 
+            i++; 
+  
+        // If we reached the end, break as no further solution possible 
+        if (i == n - 1) 
+            break; 
+  
+        // Store the index of minima 
+        int buy = i++; 
+  
+        // Find Local Maxima 
+        // Note that the limit is (n-1) as we are comparing to previous element 
+        while ((i < n) && (price[i] >= price[i - 1])) 
+            i++; 
+  
+        // Store the index of maxima 
+        int sell = i - 1; 
+  
+        cout << "Buy on day: " << buy << "\t Sell on day: " << sell << endl; 
+    } 
+} 
+int main() 
+{ 
+    // Stock prices on consecutive days 
+    int price[] = { 100, 180, 260, 310, 40, 535, 695 }; 
+    int n = sizeof(price) / sizeof(price[0]); 
+    // Function call 
+    stockBuySell(price, n); 
+    return 0; 
+} 
+O/P: Buy on day : 0   Sell on day: 3
+	Buy on day : 4   Sell on day: 6
+Time Complexity: The outer loop runs till i becomes n-1. The inner two loops increment value of i in every iteration. 
+So overall time complexity is O(n)
+
+My Code....
+
+#include<bits/stdc++.h>
+using namespace std;
+void stockBuySell(int price[], int n) 
+{  
+    if (n == 1) 
+        return; 
+    int i = 0, buy=0, sell=0; 
+    while (i < n - 1) 
+    {  
+        while ((i < n - 1) && (price[i + 1] <= price[i])) 
+            i++; 
+        if (i == n - 1) 
+            break;
+        buy = i++; 
+        while ((i < n) && (price[i] >= price[i - 1])) 
+            i++; 
+        sell = i - 1;
+        cout << "(" << buy <<" "<< sell <<")"<<" "; 
+    }
+    if(buy==0&&sell==0)    
+    cout<<"No Profit";
+} 
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n;
+	    cin>>n;
+	    int i,a[n];
+	    for(i=0;i<n;i++)
+	        cin>>a[i];
+	   stockBuySell(a,n);
+	   cout<<endl;
+	}
+	return 0;
+}
