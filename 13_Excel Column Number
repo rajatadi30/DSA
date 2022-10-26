@@ -1,0 +1,60 @@
+// Returns resul when we pass title. 
+int titleToNumber(string s) 
+{ 
+    // This process is similar to binary-to-decimal conversion 
+    int result = 0; 
+    for (const auto& c : s) 
+    { 
+        result *= 26; 
+        result += c  - 'A' + 1; 
+    } 
+  
+    return result; 
+} 
+  
+// Driver function 
+int main() 
+{ 
+    cout << titleToNumber("CDA") << endl; 
+    return 0; 
+} 
+Time Complexity: O(n), where n is length of input string.
+Space Complexity: O(1).
+As no extra space is required.
+
+I/P:
+2
+UMU 
+RWXP
+
+O/P:
+14555
+332556
+My Code:
+#include<iostream>
+using namespace std; 
+int titleToNumber(string s) 
+{ 
+    // This process is similar to binary-to-decimal conversion 
+    int result = 0; 
+    for (const auto& c : s) 
+    { 
+        result *= 26; 
+        result += c  - 'A' + 1;
+      //  cout<<result<<endl;   if(s=UMU) THEN result=21 then result=26*21+13=559 then result=559*26+21=14555 which is our answer
+    } 
+  
+    return result; 
+} 
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string s;
+        cin>>s;
+        cout << titleToNumber(s) << endl; 
+    }
+    return 0;
+} 
