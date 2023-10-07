@@ -1,0 +1,103 @@
+Hashing Based Solution[O(n^2)]
+Approach:
+Store sums of all pairs in a hash table
+Traverse through all pairs again and search for X – (current pair sum) in the hash table.
+If a pair is found with the required sum, then make sure that all elements are distinct array elements and an element is not considered more than once.
+
+// A hashing based  CPP program to find if there are four elements with given sum. 
+#include <bits/stdc++.h> 
+using namespace std; 
+  
+// The function finds four elements with given sum X 
+void findFourElements(int arr[], int n, int X) 
+{ // Store sums of all pairs in a hash table 
+    unordered_map<int, pair<int, int> > mp; 
+    for (int i = 0; i < n - 1; i++) 
+        for (int j = i + 1; j < n; j++) 
+            mp[arr[i] + arr[j]] = { i, j }; 
+ // Traverse through all pairs and search for X - (current pair sum). 
+    for (int i = 0; i < n - 1; i++) 
+    { 
+        for (int j = i + 1; j < n; j++) 
+        { 
+            int sum = arr[i] + arr[j]; 
+            // If X - sum is present in hash table, 
+            if (mp.find(X - sum) != mp.end()) 
+            {   // Making sure that all elements are distinct array elements and an element is not considered more than once. 
+                pair<int, int> p = mp[X - sum]; 
+                if (p.first != i && p.first != j && p.second != i && p.second != j) 
+		{ 
+                    cout << arr[i] << ", " << arr[j] << ", " << arr[p.first] << ", " << arr[p.second]; 
+                    return; 
+                } 
+            } 
+        } 
+    } 
+} 
+int main() 
+{ 
+    int arr[] = { 10, 20, 30, 40, 1, 2 }; 
+    int n = sizeof(arr) / sizeof(arr[0]); 
+    int X = 91; 
+    findFourElements(arr, n, X); 
+    return 0; 
+} 
+O/P:20, 30, 40, 1
+
+Code for output to contain only unique quadruples:
+For each test case in a new line print all the quadruples present in the array separated by space which sums up to value of K. 
+Each quadruple is unique which are separated by a delimeter "$" and are in increasing order.
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n,k,i,j;
+        cin>>n>>k;
+        int arr[n];
+        for(i=0;i<n;i++) 
+            cin>>arr[i] ;
+        sort(arr,arr+n);
+        map<int,vector<pair<int,int>>>mp;
+
+        for(i=0;i<n-1;i++)
+        { 
+            for(j=i+1;j<n;j++) 
+                mp[arr[i]+arr[j]].push_back({i,j});
+        }
+        int temp;
+        set<vector<int>>st;
+        bool flag=false;
+        for(i=0;i<n-1;i++)
+        { 
+            for(j=i+1;j<n;j++)
+            {   
+                temp=k-(arr[i]+arr[j]); 
+                if(mp.find(temp)!=mp.end()) 
+                {   vector<pair<int,int>> v = mp[temp];
+                    for(auto p:v )
+                    {
+                        if(p.first!=i&&p.first!=j&&p.second!=i&&p.second!=j)
+                        {
+                            vector<int>q={arr[i],arr[j],arr[p.first],arr[p.second]};
+                            sort(q.begin(),q.end());
+                            if(st.find(q)==st.end())
+                            {
+                                flag=true;
+                                st.insert(q);
+                                cout<<q[0]<<" "<<q[1]<<" "<<q[2]<<" "<<q[3]<<" $"; 
+                            } 
+                        } 
+                    }   
+                } 
+            } 
+        }
+        if(!flag) 
+            cout<<-1; 
+        cout<<endl; 
+    } 
+    return 0; 
+}
