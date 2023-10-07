@@ -1,0 +1,62 @@
+Algorithm:
+Initialize an empty hash table s.
+Do following for each element A[i] in A[]
+a.If s[x – A[i]] is set then print the pair (A[i], x – A[i])
+b.Insert A[i] into s.
+
+Pseudo Code :
+
+unordered_set s
+for(i=0 to end)
+  if(s.find(target_sum - arr[i]) == s.end)
+    insert(arr[i] into s)
+  else 
+    print arr[i], target-arr[i]
+
+// C++ program to check if given array has 2 elements whose sum is equal to the given value 
+void printPairs(int arr[], int arr_size, int sum) 
+{ 
+    unordered_set<int> s; 
+    for (int i = 0; i < arr_size; i++) 
+    { 
+        int temp = sum - arr[i]; 
+        if (s.find(temp) != s.end()) 
+            cout << "Pair with given sum " << sum << " is (" << arr[i] << "," << temp << ")" << endl; 
+        s.insert(arr[i]); 
+    } 
+} 
+int main() 
+{ 
+    int A[] = { 1, 4, 45, 6, 10, 8 }; 
+    int n = 16; 
+    int arr_size = sizeof(A) / sizeof(A[0]); 
+  
+    // Function calling 
+    printPairs(A, arr_size, n); 
+  
+    return 0; 
+} 
+O/P: Pair with given sum 16 is (10, 6)
+Time Complexity: O(n).
+As the whole array is needed to be traversed only once.
+Auxiliary Space: O(n).
+As a hash map has been used to store array elements.
+
+Leetcode Solution for returning indices:
+    vector<int> twoSum(vector<int>& nums, int target) 
+    {
+        int i,n=nums.size();
+        vector<int>res;
+        unordered_map<int,int>mp;
+        for(i=0;i<n;i++)
+        {
+            int temp=target-nums[i];
+            if(mp.find(temp)!=mp.end())
+            {
+                res.push_back(mp[temp]);
+                res.push_back(i);
+            }
+            mp[nums[i]]=i;;
+        }
+       return res; 
+    }
